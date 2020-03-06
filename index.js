@@ -1,7 +1,7 @@
-var express = require('express')
-var app = express()
-var mysql = require('mysql')
-var pw = require('./pw.js')
+const express = require('express')
+const app = express()
+const mysql = require('mysql')
+const pw = require('./pw.js')
 
 let pool = mysql.createPool({
     connectionLimit: 5,
