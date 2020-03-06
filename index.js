@@ -1,22 +1,15 @@
 const express = require('express')
 const app = express()
-const mysql = require('mysql')
-const pw = require('./pw.js')
+const pool = require('./pool.js')
 
-let pool = mysql.createPool({
-    connectionLimit: 5,
-    host: 'localhost',
-    user: pw.user,
-    password: pw.password,
-    database: 'IKFiskmåsen'
-})
-
+// Denna query använder en placeholder (frågetecknet)
 let query = "SELECT * FROM members WHERE id=?"
 let userID
 
 app.get('/', (req, res) => {
     userID = req.query.id
-    pool.getConnection((err, connection) => {
+    pool((err, connection) => {
+        // Arrayen som innehåller userID innehåller de värden som kommer att ersätta frågetecknet.
         connection.query(query, [userID], (error, result, fields) => {
             connection.release()
 
